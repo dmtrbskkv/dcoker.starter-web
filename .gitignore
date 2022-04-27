@@ -2,3 +2,4 @@
 /.docker/nginx/log/*
 /.docker/nginx/default.conf
 /.env
+./.idea
