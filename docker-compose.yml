@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  php:
+    build: ${DOCKER_ROOT}/php
+    depends_on:
+      - database
+    working_dir: ${CONTAINERS_WORKDIR}
+    volumes:
+      - ${PHP_EXTERNAL_DIRECTORY}:${CONTAINERS_WORKDIR}
+  node:
+    build: ${DOCKER_ROOT}/node
+    command: ${NODE_COMMAND}
+    working_dir: ${CONTAINERS_WORKDIR}
+    volumes:
+      - ${NODE_EXTERNAL_DIRECTORY}:${CONTAINERS_WORKDIR}
+  nginx:
+    image: nginx:latest
+    depends_on:
+      - php
+      - node
+    ports:
+      - ${NGINX_EXTERNAL_PORT}:${NGINX_INTERNAL_PORT}
+    working_dir: ${CONTAINERS_WORKDIR}
+    volumes:
+      - ./backend:${CONTAINERS_WORKDIR}
+      - ${DOCKER_ROOT}/nginx/:/etc/nginx/conf.d/
+      - ${DOCKER_ROOT}/nginx/log:/var/log/nginx/
+  database:
+    image: mariadb:latest
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=${DATABASE_ALLOW_EMPTY_PASSWORD}
+      - MYSQL_USER=${DATABASE_USER}
+      - MYSQL_DATABASE=${DATABASE_DATABASE}
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+    volumes:
+      - ${DOCKER_ROOT}/database:/var/lib/mysql

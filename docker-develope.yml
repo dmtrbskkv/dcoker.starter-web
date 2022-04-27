@@ -1,0 +1,6 @@
+version: '3'
+
+services:
+  database:
+    ports:
+      - ${DATABASE_EXTERNAL_PORT}:3306
