@@ -23,7 +23,7 @@ services:
       - ${NGINX_EXTERNAL_PORT}:${NGINX_INTERNAL_PORT}
     working_dir: ${CONTAINERS_WORKDIR}
     volumes:
-      - ./backend:${CONTAINERS_WORKDIR}
+      - ${NGINX_EXTERNAL_DIRECTORY}:${CONTAINERS_WORKDIR}
       - ${DOCKER_ROOT}/nginx/:/etc/nginx/conf.d/
       - ${DOCKER_ROOT}/nginx/log:/var/log/nginx/
   database:
