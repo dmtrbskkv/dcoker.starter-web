@@ -4,3 +4,25 @@ services:
   database:
     ports:
       - ${DATABASE_EXTERNAL_PORT}:3306
+  db_test:
+    image: mysql:5.7
+    volumes:
+      - ${DOCKER_ROOT}/dbtest:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=${DATABASE_DATABASE}
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
+    ports:
+      - ${DEVELOP_DATABASE_EXTERNAL_PORT}:3306
+  phpmyadmin:
+    image: phpmyadmin
+    depends_on:
+      - db_test
+    ports:
+      - ${DEVELOP_PMA_EXTERNAL_PORT}:${DEVELOP_PMA_INTERNAL_PORT}
+    environment:
+      - PMA_HOST=db_test
+      - PMA_USER=root
+      - PMA_PASSWORD=${DATABASE_PASSWORD}
+      - PMA_ARBITRARY=1
+      - UPLOAD_LIMIT=100M
