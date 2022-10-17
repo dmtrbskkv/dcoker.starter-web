@@ -1,5 +1,6 @@
-/.docker/database
-/.docker/nginx/log/*
-/.docker/nginx/default.conf
+.docker/database
+.docker/dbtest
+.docker/nginx/log/*
+.docker/nginx/default.conf
 /.env
-./.idea
+.idea
