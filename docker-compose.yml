@@ -8,6 +8,7 @@ services:
     working_dir: ${CONTAINERS_WORKDIR}
     volumes:
       - ${PHP_EXTERNAL_DIRECTORY}:${CONTAINERS_WORKDIR}
+      - ${DOCKER_ROOT}/php/php.ini:/usr/local/etc/php/php.ini
   node:
     build: ${DOCKER_ROOT}/node
     command: ${NODE_COMMAND}

@@ -2,5 +2,6 @@
 .docker/dbtest
 .docker/nginx/log/*
 .docker/nginx/default.conf
+.docker/php/php.ini
 /.env
 .idea
