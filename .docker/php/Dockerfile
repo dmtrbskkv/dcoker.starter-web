@@ -1,5 +1,10 @@
 FROM php:8.0-fpm
 
+# Install script for problematic extensions
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+RUN chmod +x /usr/local/bin/install-php-extensions && sync && \
+    install-php-extensions http
+
 RUN apt-get update && apt-get install -y \
     curl \
     wget \
@@ -18,7 +23,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install intl
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Настройка пользователя для корректной работы
+# Update user rights
 ENV USER=user USER_ID=1000 USER_GID=1000
 RUN addgroup --gid ${USER_GID} ${USER}
 RUN adduser --disabled-password --gecos '' --uid ${USER_ID} --gid ${USER_GID} ${USER}
